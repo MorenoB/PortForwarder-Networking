@@ -35,6 +35,8 @@ public class JHTTP {
             while (true) {
                 try {
                     Socket request = server.accept();
+                    
+                    LOGGER.log(Level.INFO, "Accepting connection on port {0}", server.getLocalPort());
                     Runnable r = new RequestProcessor(
                             rootDirectory, INDEX_FILE, request);
                     pool.submit(r);
