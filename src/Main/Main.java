@@ -3,6 +3,8 @@ package Main;
 import server.JHTTP;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import portforwarder.PortForwarder;
@@ -14,28 +16,41 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        /* if(args.length != 2 && args.length != 3)
-        {
-            System.out.println("Usage: java -jar PortForwarder.jar [S/P] port docroot (only if the flag S is chosen)");
+        if ("P".equals(args[0])) {
+            
+            List<String> serverList = new ArrayList<>();
+            
+            int port = Integer.parseInt(args[1]);
+            
+            for (int i = 0; i < args.length; i++) {
+                
+                //Ignore the first and second argument
+                //index 0 : P or S.
+                //index 1 : port that will be used.
+                if(i == 0 || i == 1) continue;
+                
+                String server = args[i];
+                
+                serverList.add(server);
+            }
+            
+            PortForwarder pf = new PortForwarder(port,serverList);
+            
+            try {
+                //Start port forwarder
+                pf.Start();
+            } catch (Exception ex) {
+                LOGGER.log(Level.SEVERE, "Server could not start", ex);
+            }
             return;
-        }*/
+        }
+        
         File docroot;
 
         try {
             docroot = new File(args[2]);
         } catch (ArrayIndexOutOfBoundsException ex) {
-            System.out.println("Usage: java -jar PortForwarder.jar [S/P] port docroot (only if the flag S is chosen)");
-            return;
-        }
-
-        if ("P".equals(args[0])) {
-            PortForwarder pf = new PortForwarder(docroot);
-            try {
-                pf.start();
-            } catch (IOException ex) {
-                LOGGER.log(Level.SEVERE, "Server could not start", ex);
-            }
-            //Start port forwarder
+            LOGGER.log(Level.WARNING, "Usage: java -jar PortForwarder.jar [S/P] port docroot (only if the flag S is chosen)");
             return;
         }
 
@@ -64,7 +79,7 @@ public class Main {
             return;
         }
 
-        System.out.println("Usage: java -jar PortForwarder.jar [S/P] port docroot (only if the flag S is chosen)");
+        LOGGER.log(Level.INFO, "Usage: java -jar PortForwarder.jar [S/P] port docroot (only if the flag S is chosen)");
 
     }
 }
