@@ -16,11 +16,11 @@ import server.JHTTP;
 
 public class PFHandler implements HttpHandler {
 
-     private static final Logger LOGGER = Logger.getLogger(
+    private static final Logger LOGGER = Logger.getLogger(
             JHTTP.class.getCanonicalName());
     
-    private List<String> servers;
-    private Random randomGenerator;
+    private final List<String> servers;
+    private final Random randomGenerator;
 
     public PFHandler(List<String> servers) {
         randomGenerator = new Random();

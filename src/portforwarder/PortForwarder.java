@@ -14,10 +14,10 @@ public class PortForwarder {
             JHTTP.class.getCanonicalName());
 
     private int port = 80;    
-    private List<String> serverList;
+    private final List<String> serverList;
     
     private HttpServer server;
-    private PFHandler customHandler;
+    private final PFHandler customHandler;
 
     public PortForwarder(int port, List<String> serverList) throws IOException {
         
